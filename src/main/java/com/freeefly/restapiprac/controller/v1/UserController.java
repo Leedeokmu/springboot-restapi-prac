@@ -32,7 +32,8 @@ public class UserController {
     @ApiOperation(value = "회원 단건 조회", notes = "userId로 회원을 조회한다.")
     @GetMapping(value = "/user/{msrl}")
     public SingleResult<User> findUserById(
-            @ApiParam(value = "회원 ID", required = true) @PathVariable("msrl") Long msrl
+            @ApiParam(value = "회원 ID", required = true) @PathVariable("msrl") Long msrl,
+            @ApiParam(value = "언어", defaultValue = "ko") @RequestParam(value = "lang", defaultValue = "ko") String lang
     ) {
         return responseService.getSingleResult(userRepository.findById(msrl).orElseThrow(() -> new UserNotFountException()));
     }
