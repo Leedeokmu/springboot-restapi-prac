@@ -16,6 +16,9 @@ spring:
                     lob:
                         non_contextual_creation: true
                 format_sql: true
+    messages:
+        basename: i18n/exception
+        encoding: UTF-8
 
 logging:
     level:
