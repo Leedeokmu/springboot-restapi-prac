@@ -20,6 +20,10 @@ spring:
         basename: i18n/exception
         encoding: UTF-8
 
+    jwt:
+        secret: 159357abc
+
+
 logging:
     level:
         org.hibernate.SQL: DEBUG
