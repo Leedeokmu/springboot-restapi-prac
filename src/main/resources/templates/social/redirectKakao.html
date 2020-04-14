@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+    <head>
+        <meta charset="UTF-8">
+        <title>KKO login auth info</title>
+    </head>
+    <body>
+        access_token : <span th:text="${authInfo.access_token}">access_token</span>
+        token_type : <span th:text="${authInfo.token_type}">token_type</span>
+        refresh_token : <span th:text="${authInfo.refresh_token}">refresh_token</span>
+        expires_in : <span th:text="${authInfo.expires_in}">expires_in</span>
+        scope : <span th:text="${authInfo.scope}">scope</span>
+    </body>
+</html>

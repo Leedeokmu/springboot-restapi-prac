@@ -1,8 +1,6 @@
 package com.freeefly.restapiprac.advice;
 
-import com.freeefly.restapiprac.advice.exception.AuthenticationEntryPointException;
-import com.freeefly.restapiprac.advice.exception.EmailSigninFailedException;
-import com.freeefly.restapiprac.advice.exception.UserNotFoundException;
+import com.freeefly.restapiprac.advice.exception.*;
 import com.freeefly.restapiprac.config.MessageSourceUtils;
 import com.freeefly.restapiprac.model.CommonResult;
 import com.freeefly.restapiprac.service.ResponseService;
@@ -26,7 +24,6 @@ public class ExceptionAdvice {
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult userNotFountExceptionHandler(HttpServletRequest request, UserNotFoundException e) {
-        log.error("[userNotFountExceptionHandler]");
         return responseService.getFailResult(
                 Integer.valueOf(messageSourceUtils.getMessage("userNotFound.code")),
                 messageSourceUtils.getMessage("userNotFound.msg"));
@@ -35,7 +32,6 @@ public class ExceptionAdvice {
     @ExceptionHandler(EmailSigninFailedException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult emailSigninFailedExceptionHandler(HttpServletRequest request, EmailSigninFailedException e) {
-        log.error("[userNotFountExceptionHandler]");
         return responseService.getFailResult(
                 Integer.valueOf(messageSourceUtils.getMessage("emailSigninFailed.code")),
                 messageSourceUtils.getMessage("emailSigninFailed.msg"));
@@ -44,7 +40,6 @@ public class ExceptionAdvice {
     @ExceptionHandler(AuthenticationEntryPointException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult authenticationEntryPointExceptionHandler(HttpServletRequest request, AuthenticationEntryPointException e) {
-        log.error("[userNotFountExceptionHandler]");
         return responseService.getFailResult(
                 Integer.valueOf(messageSourceUtils.getMessage("entryPointException.code")),
                 messageSourceUtils.getMessage("entryPointException.msg"));
@@ -53,10 +48,25 @@ public class ExceptionAdvice {
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult accessDeniedExceptionHandler(HttpServletRequest request, AccessDeniedException e) {
-        log.error("[userNotFountExceptionHandler]");
         return responseService.getFailResult(
                 Integer.valueOf(messageSourceUtils.getMessage("accessDenied.code")),
                 messageSourceUtils.getMessage("accessDenied.msg"));
+    }
+
+    @ExceptionHandler(CommunicationException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult communicationExceptionHandler(HttpServletRequest request, CommunicationException e) {
+        return responseService.getFailResult(
+                Integer.valueOf(messageSourceUtils.getMessage("communicationError.code")),
+                messageSourceUtils.getMessage("communicationError.msg"));
+    }
+
+    @ExceptionHandler(UserExistsException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult userExistExceptionHandler(HttpServletRequest request, UserExistsException e) {
+        return responseService.getFailResult(
+                Integer.valueOf(messageSourceUtils.getMessage("existingUser.code")),
+                messageSourceUtils.getMessage("existingUser.msg"));
     }
 
     @ExceptionHandler(Exception.class)

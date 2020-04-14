@@ -23,6 +23,16 @@ spring:
     jwt:
         secret: 159357abc
 
+    url:
+        base: http://localhost:8080
+    social:
+        kakao:
+            client_id: 98e41064d870a8d89762788b19d7828b
+            redirect: /social/login/kakao
+            url:
+                login: https://kauth.kakao.com/oauth/authorize
+                token: https://kauth.kakao.com/oauth/token
+                profile: https://kapi.kakao.com/v2/user/me
 
 logging:
     level:

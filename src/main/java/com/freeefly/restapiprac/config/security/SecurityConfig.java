@@ -2,6 +2,7 @@ package com.freeefly.restapiprac.config.security;
 
 import com.freeefly.restapiprac.entity.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().mvcMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Override
@@ -37,9 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests()
-                    .mvcMatchers("/*/signin", "/*/signup").permitAll()
+                    .mvcMatchers("/*/signin", "/*/signin/**", "/*/signup", "/*/signup/**", "/social/**").permitAll()
                     .mvcMatchers(HttpMethod.GET, "/exception/**").permitAll()
-                    .mvcMatchers("/*/users").hasRole(UserRole.ADMIN.name())
+//                    .mvcMatchers("/*/users").hasRole(UserRole.ADMIN.name())
                     .anyRequest().hasRole(UserRole.USER.name())
                 .and()
                     .exceptionHandling()
