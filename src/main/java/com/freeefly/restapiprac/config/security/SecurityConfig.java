@@ -33,14 +33,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .csrf().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .mvcMatchers("/*/signin", "/*/signup").permitAll()
-                .mvcMatchers(HttpMethod.GET, "helloworld/**").permitAll()
-                .anyRequest().hasRole(UserRole.USER.name())
+                    .authorizeRequests()
+                    .mvcMatchers("/*/signin", "/*/signup").permitAll()
+                    .mvcMatchers(HttpMethod.GET, "/exception/**").permitAll()
+                    .mvcMatchers("/*/users").hasRole(UserRole.ADMIN.name())
+                    .anyRequest().hasRole(UserRole.USER.name())
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                    .exceptionHandling()
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        .accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 }
