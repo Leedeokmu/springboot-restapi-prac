@@ -3,6 +3,7 @@ package com.freeefly.restapiprac.service;
 import com.freeefly.restapiprac.advice.exception.NotOwnerException;
 import com.freeefly.restapiprac.advice.exception.ResourceNotExistsException;
 import com.freeefly.restapiprac.advice.exception.UserNotFoundException;
+import com.freeefly.restapiprac.config.CacheKey;
 import com.freeefly.restapiprac.entity.Board;
 import com.freeefly.restapiprac.entity.Post;
 import com.freeefly.restapiprac.entity.User;
@@ -11,6 +12,9 @@ import com.freeefly.restapiprac.repository.BoardRepository;
 import com.freeefly.restapiprac.repository.PostRepository;
 import com.freeefly.restapiprac.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +29,11 @@ public class BoardService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+    @Cacheable(value = CacheKey.BOARD, key = "#boardName", unless = "#result == null")
     public Board findBoard(String boardName) {
         return Optional.ofNullable(boardRepository.findByName(boardName)).orElseThrow(ResourceNotExistsException::new);
     }
-
+    @Cacheable(value = CacheKey.POSTS, key = "#boardName", unless = "#result == null")
     public List<Post> findPosts(String boardName) {
         return postRepository.findByBoard(this.findBoard(boardName));
     }
@@ -37,6 +42,7 @@ public class BoardService {
         return postRepository.findById(postId).orElseThrow(ResourceNotExistsException::new);
     }
 
+    @CacheEvict(value = CacheKey.POSTS, key = "#boardName")
     @Transactional
     public Post writePost(String uid, String boardName, ParamsPost paramsPost) {
         Board board = boardRepository.findByName(boardName);
@@ -45,6 +51,7 @@ public class BoardService {
         return postRepository.save(post);
     }
 
+    @CachePut(value = CacheKey.POST, key = "#postId")
     @Transactional
     public Post updatePost(long postId, String uid, ParamsPost paramsPost) {
         Post post = getPost(postId);

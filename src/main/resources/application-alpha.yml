@@ -1,15 +1,8 @@
-logging:
-  level:
-    root: warn
-    com.rest.api: info
-  path: /home/ec2-user/api/log
-  file:
-    max-history: 7
 spring:
   profiles: alpha
   datasource:
-    url: jdbc:mysql://127.0.0.1:33091/daddyprogrammer?useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:33091/daddyprogrammer?useUnicode=true&autoReconnect=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false
     username: root
     password: 159357
   jpa:
@@ -21,3 +14,14 @@ spring:
     generate-ddl: false
   url:
     base: http://alpha.daddyprogrammer.org
+  redis:
+    host: localhost
+    port: 6379
+
+logging:
+  level:
+    root: warn
+    com.rest.api: info
+  path: /home/ec2-user/api/log
+  file:
+    max-history: 7

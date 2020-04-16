@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Post extends CommonDateEntity{
+public class Post extends CommonDateEntity implements Serializable {
 
     @Id @GeneratedValue
     @Column(name = "post_id")
