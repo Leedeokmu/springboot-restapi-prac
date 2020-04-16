@@ -69,6 +69,22 @@ public class ExceptionAdvice {
                 messageSourceUtils.getMessage("existingUser.msg"));
     }
 
+    @ExceptionHandler(ResourceNotExistsException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult resourceNotExistsExceptionHandler(HttpServletRequest request, ResourceNotExistsException e) {
+        return responseService.getFailResult(
+                Integer.valueOf(messageSourceUtils.getMessage("resourceNotExist.code")),
+                messageSourceUtils.getMessage("resourceNotExist.msg"));
+    }
+
+    @ExceptionHandler(NotOwnerException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult notOwnerExceptionHandler(HttpServletRequest request, NotOwnerException e) {
+        return responseService.getFailResult(
+                Integer.valueOf(messageSourceUtils.getMessage("notOwner.code")),
+                messageSourceUtils.getMessage("notOwner.msg"));
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult defaultExceptionHandler(HttpServletRequest request, Exception e) {

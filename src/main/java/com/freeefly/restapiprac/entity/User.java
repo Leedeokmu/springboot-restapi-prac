@@ -1,5 +1,6 @@
 package com.freeefly.restapiprac.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,8 +16,10 @@ import java.util.stream.Collectors;
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED) @AllArgsConstructor
 @Builder
 @Entity
-public class User implements UserDetails {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class User extends CommonDateEntity implements UserDetails{
     @Id @GeneratedValue
+    @Column(name = "msrl")
     private Long msrl;
 
     @Column(nullable = false, unique = true, length = 30)
