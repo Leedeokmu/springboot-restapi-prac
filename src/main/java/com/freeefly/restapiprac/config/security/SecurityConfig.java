@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                         .mvcMatchers("/*/signin", "/*/signin/**", "/*/signup", "/*/signup/**", "/social/**").permitAll()
                         .mvcMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
-                        .mvcMatchers(HttpMethod.GET, "/exception/**").permitAll()
+                        .mvcMatchers(HttpMethod.GET, "/exception/**", "/actuator/health").permitAll()
 //                      .mvcMatchers("/*/users").hasRole(UserRole.ADMIN.name())
                     .anyRequest().hasRole(UserRole.USER.name())
                 .and()
